@@ -1,0 +1,53 @@
+diff --git a/core/modules/views/views.module b/core/modules/views/views.module
+index f484f18..237515b 100644
+--- a/core/modules/views/views.module
++++ b/core/modules/views/views.module
+@@ -681,27 +681,41 @@ function views_query_views_alter(AlterableInterface $query) {
+   $substitutions = $query->getMetaData('views_substitutions');
+   $tables = &$query->getTables();
+   $where = &$query->conditions();
++  $expressions = &$query->getExpressions();
+ 
+   // Replaces substitutions in tables.
+-  foreach ($tables as $table_name => $table_metadata) {
+-    foreach ($table_metadata['arguments'] as $replacement_key => $value) {
++  _views_query_replace_substitutions($tables, $substitutions);
++  // Replaces substitutions in field expressions.
++  _views_query_replace_substitutions($expressions, $substitutions);
++  // Replaces substitutions in filter criteria.
++  _views_query_tag_alter_condition($query, $where, $substitutions);
++}
++
++/**
++ * Replace special query placeholders with substitutions.
++ *
++ * @param array $items
++ *   The tables or expressions array to iterate for substitution.
++ * @param array $substitutions
++ *   Replace item's arguments with specified substitutions.
++ */
++function _views_query_replace_substitutions(array &$items, array $substitutions) {
++  foreach ($items as $item_id => $item) {
++    foreach ($item['arguments'] as $replacement_key => $value) {
+       if (!is_array($value)) {
+         if (isset($substitutions[$value])) {
+-          $tables[$table_name]['arguments'][$replacement_key] = $substitutions[$value];
++          $items[$item_id]['arguments'][$replacement_key] = $substitutions[$value];
+         }
+       }
+       else {
+         foreach ($value as $sub_key => $sub_value) {
+           if (isset($substitutions[$sub_value])) {
+-            $tables[$table_name]['arguments'][$replacement_key][$sub_key] = $substitutions[$sub_value];
++            $items[$item_id]['arguments'][$replacement_key][$sub_key] = $substitutions[$sub_value];
+           }
+         }
+       }
+     }
+   }
+-
+-  // Replaces substitutions in filter criteria.
+-  _views_query_tag_alter_condition($query, $where, $substitutions);
+ }
+ 
+ /**

@@ -1,0 +1,14 @@
+uuid: 207efb2c-1b77-41ac-9e20-08f5d85c8a61
+name: d8sc
+mail: noreply@example.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: en
+default_langcode: en
+_core:
+  default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI
