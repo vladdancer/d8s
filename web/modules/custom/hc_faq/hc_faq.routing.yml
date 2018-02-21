@@ -1,0 +1,8 @@
+
+hc_faq.faq_list_controller_overview:
+  path: '/faq'
+  defaults:
+    _controller: '\Drupal\hc_faq\Controller\FaqListController::overview'
+    _title: 'FAQ'
+  requirements:
+    _permission: 'access content'

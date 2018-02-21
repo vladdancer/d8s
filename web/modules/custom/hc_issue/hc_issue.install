@@ -1,0 +1,103 @@
+<?php
+
+function hc_issue_schema() {
+  $schema['hc_issue'] = [
+    'description' => 'Stores issues for Help Center.',
+    'fields' => [
+      'iid' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'The {node}.nid of the node.',
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The {node}.nid of the node.',
+      ],
+      'assigned' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'The {node}.nid of the node.',
+      ],
+      'created' => [
+        'description' => 'The Unix timestamp when the issue was created.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'subject' => [
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+        'description' => 'The subject of the issue.',
+        'default' => '',
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => TRUE,
+        'description' => 'The description of the issue.',
+        'default' => '',
+      ],
+      'category' => [
+        'type' => 'int',
+        'size' => 'tiny',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The {node}.nid of the node.',
+      ],
+    ],
+    'indexes' => [
+      'user_issues' => ['iid', 'uid'],
+    ],
+    'primary key' => ['iid'],
+    'foreign keys' => [
+      'issue_user' => [
+        'table' => 'users',
+        'columns' => [
+          'uid' => 'uid',
+        ],
+      ],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Update iid field using hook_update..
+ */
+function hc_issue_update_8002(&$sandbox) {
+  $spec = hc_issue_schema()['hc_issue']['fields']['iid'];
+  \Drupal::database()->schema()->changeField('hc_issue', 'iid', 'iid', $spec);
+  \Drupal::database()->schema()->changeField('hc_issue', 'iid', 'iid', $spec);
+  //\Drupal::database()->schema()->createTable('hc_issue', hc_issue_schema()['hc_issue']);
+  //drupal_set_message('Module hc_issue Update # 8001 () was executed successfully.');
+}
+
+/**
+ * Add asigned field using hook_update..
+ */
+function hc_issue_update_8003(&$sandbox) {
+  $spec = hc_issue_schema()['hc_issue']['fields']['assigned'];
+  \Drupal::database()->schema()->addField('hc_issue', 'assigned', $spec);
+  drupal_set_message('Module hc_issue Update # 8003 () was executed successfully.');
+}
+
+/**
+ * Add asigned field using hook_update..
+ */
+function hc_issue_update_8004(&$sandbox) {
+  // Add FKs.
+  \Drupal::database()->query("
+      ALTER TABLE `hc_issue`
+ADD FOREIGN KEY (`assigned`) REFERENCES `users` (`uid`) ON DELETE CASCADE
+    ");
+  drupal_set_message('Module hc_issue Update # 8003 () was executed successfully.');
+}

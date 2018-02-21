@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains hc_issue.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function hc_issue_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the hc_issue module.
+    case 'help.page.hc_issue':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Allows to create issues on a site') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function hc_issue_theme() {
+  return [
+    'hc_issue' => [
+      'render element' => 'children',
+    ],
+  ];
+}

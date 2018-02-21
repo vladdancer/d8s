@@ -1,0 +1,33 @@
+
+hc_issue.issue_add_page:
+  path: 'hc/issue/add'
+  defaults:
+    _form: '\Drupal\hc_issue\Form\IssueAddForm'
+    _title: 'IssueAddForm'
+  requirements:
+    _access: 'TRUE'
+
+hc_issue.user_issues:
+  path: '/user/hc/issues'
+  defaults:
+    _controller: '\Drupal\hc_issue\Controller\UserIssueController::listIssues'
+    _title: 'Issues'
+  requirements:
+    _permission: 'access content'
+
+hc_issue.edit:
+  path: '/hc/issue/{issue_id}/edit'
+  defaults:
+    _form: '\Drupal\hc_issue\Form\IssueEditForm'
+    _title: 'IssueEditFrom'
+  requirements:
+    _access: 'TRUE'
+
+
+hc_issue.view:
+  path: '/hc/issue/{issue_id}'
+  defaults:
+    _controller: '\Drupal\hc_issue\Controller\IssueController::view'
+    _title: 'View'
+  requirements:
+    _permission: 'access content'

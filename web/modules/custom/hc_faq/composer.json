@@ -1,0 +1,14 @@
+{
+  "name": "drupal/hc_faq",
+  "type": "drupal-module",
+  "description": "My Awesome Module",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/hc_faq",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/hc_faq",
+    "source": "http://cgit.drupalcode.org/hc_faq"
+  },
+  "require": { }
+}

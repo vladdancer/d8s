@@ -1,0 +1,5 @@
+name: 'HC Issue'
+type: module
+description: 'Allows to create issues on a site'
+core: 8.x
+package: 'Help Center'
